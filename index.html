@@ -6,10 +6,13 @@
     <title>Богданин сайт</title>
     <link rel="stylesheet" href="./styles.css">
     <style>
-        .login {
+        .login-container {
             position: absolute;
             top: 10px;
             right: 10px;
+        }
+        .login-container button {
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -42,20 +45,58 @@
             <td>Ждите!</td>
         </tr>
     </table>
-    <a href="whod.html" class="login">Войти</a>
+
+    <div class="login-container">
+        <a href="whod.html" class="login">Войти</a>
+        <button id="logoutButton" style="display: none;">Выйти</button>
+    </div>
 
     <script>
+        // Функция для сброса состояния страницы
+        function resetState() {
+            // Удаляем параметр "name" из URL и обновляем страницу
+            const url = new URL(window.location.href);
+            url.searchParams.delete('name');
+            history.replaceState(null, null, url.href);
+            
+            // Устанавливаем имя обратно в "Богдан"
+            const nameSpan = document.getElementById('name');
+            const ownerNameSpan = document.getElementById('ownerName');
+            nameSpan.textContent = 'Богдан';
+            ownerNameSpan.textContent = 'Богдан';
+
+            // Удаляем кнопку "Выйти"
+            const logoutButton = document.getElementById('logoutButton');
+            logoutButton.style.display = 'none';
+
+            // Показываем кнопку "Войти"
+            const loginLink = document.querySelector('.login');
+            loginLink.style.display = 'inline';
+        }
+
         // Извлекаем значение имени из URL-параметра
         const urlParams = new URLSearchParams(window.location.search);
         const nameParam = urlParams.get('name');
 
-        // Если имя присутствует в URL-параметре, отображаем его как имя и в строке владельца
+        // Если имя присутствует в URL-параметре, отображаем его как имя
         if (nameParam) {
             const nameSpan = document.getElementById('name');
             const ownerNameSpan = document.getElementById('ownerName');
-
             nameSpan.textContent = nameParam;
             ownerNameSpan.textContent = nameParam;
+
+            // Показываем кнопку "Выйти" и привязываем к ней функцию для сброса состояния
+            const logoutButton = document.getElementById('logoutButton');
+            logoutButton.style.display = 'inline';
+            logoutButton.addEventListener('click', resetState);
+
+            // Скрываем кнопку "Войти"
+            const loginLink = document.querySelector('.login');
+            loginLink.style.display = 'none';
+        } else {
+            // Если имя не присутствует, отображаем кнопку "Войти"
+            const loginLink = document.querySelector('.login');
+            loginLink.style.display = 'inline';
         }
     </script>
 </body>

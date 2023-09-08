@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./whods.css">
     <title>WHOD</title>
 </head>
 <body>
-    <h1>Регистрация</h1> <!-- Измененный заголовок -->
+    <h1>Регистрация</h1>
     <p>Введите ваше имя:</p>
     <input type="text" id="inputName" placeholder="Введите ваше имя">
     <button onclick="login()">Войти</button>
@@ -15,7 +16,9 @@
         function login() {
             const name = document.getElementById('inputName').value;
             if (name) {
-                window.location.href = "index.html?name=" + encodeURIComponent(name);
+                // Задаем куки с именем
+                document.cookie = `username=${encodeURIComponent(name)}; path=/`;
+                window.location.href = 'index.html?name=' + encodeURIComponent(name);
             }
         }
     </script>
